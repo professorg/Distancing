@@ -10,13 +10,10 @@ import java.util.stream.Stream;
 public class Client {
 
     public static void main(String[] args) {
-        int capacity = 20;
-        boolean exit = false;
-
         // Construct a circle boundary
-        Boundary2D boundary = new SquareBoundary(1.0);
+        Boundary2D boundary = new CircleBoundary(1.0);
         // Make a list of electrons
-        List<Electron2D> electrons = Stream.generate(Electron2D::new).limit(capacity).collect(Collectors.toList());
+        List<Electron2D> electrons = Stream.generate(Electron2D::new).limit(Constants.NUM_PARTICLES).collect(Collectors.toList());
         // Randomize each electron position within the boundary
         electrons.forEach(e -> boundary.randomizePosition(e));
         // Make a frame

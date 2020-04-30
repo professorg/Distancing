@@ -14,10 +14,20 @@ public class CircleBoundary implements Boundary2D {
     public void bound(Electron2D electron) {
         double distance = electron.distanceTo(0.0, 0.0);
         if (distance > radius) {
-            electron.setVelX(0.0);
-            electron.setVelY(0.0);
-            electron.setX(electron.getX() / distance * radius);
-            electron.setY(electron.getY() / distance * radius);
+            double newX = electron.getX() / distance * radius;
+            double newY = electron.getY() / distance * radius;
+            double tanX = newY;     // Bx
+            double tanY = -newX;    // By
+            double velX = electron.getVelX();   // Ax
+            double velY = electron.getVelY();   // Ay
+            double dotAB = tanX * velX + tanY * velY;
+            double dotBB = tanX * tanX + tanY * tanY;
+            double projX = dotAB / dotBB * tanX;
+            double projY = dotAB / dotBB * tanY;
+            electron.setVelX(projX);
+            electron.setVelY(projY);
+            electron.setX(newX);
+            electron.setY(newY);
         }
     }
 

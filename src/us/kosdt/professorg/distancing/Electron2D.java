@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Electron2D {
 
-    public static final double DELTA = 1E-3;
     public static final int DRAW_SIZE = 20;
     public static final double MIN_DISTANCE = 1E-6;
     public static final double SPEED_OF_LIGHT = Double.POSITIVE_INFINITY;
@@ -74,8 +73,8 @@ public class Electron2D {
 
         else
             this.addForce(
-                    charge * source.charge * dx / distanceSquared,
-                    charge * source.charge * dy / distanceSquared
+                    (Constants.DO_GRAVITY ? -1.0 : 1.0) * charge * source.charge * dx / distanceSquared,
+                    (Constants.DO_GRAVITY ? -1.0 : 1.0) * charge * source.charge * dy / distanceSquared
             );
     }
 
@@ -85,14 +84,14 @@ public class Electron2D {
     }
 
     public void tick() {
-        this.velX += DELTA * this.forceX;
-        this.velY += DELTA * this.forceY;
+        this.velX += Constants.DELTA * this.forceX;
+        this.velY += Constants.DELTA * this.forceY;
         if (Math.pow(this.velX, 2) + Math.pow(this.velY, 2) > SPEED_OF_LIGHT) {
             this.velX = 0.0;
             this.velY = 0.0;
         }
-        this.x += DELTA * this.velX;
-        this.y += DELTA * this.velY;
+        this.x += Constants.DELTA * this.velX;
+        this.y += Constants.DELTA * this.velY;
         this.forceX = 0.0;
         this.forceY = 0.0;
     }
